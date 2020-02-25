@@ -2,7 +2,10 @@
 
 echo "*************************TicTacToe*************************"
 
-# DECLARING BOARD
+# CONSTANT
+SIGN=0
+
+# RESETTING THE BOARD
 declare -A board
 
 # DISPLAY BOARD
@@ -14,3 +17,15 @@ echo "------------------"
 echo " | " ${board[7]} " | " ${board[8]} " | " ${board[9]} " | "
 echo "------------------"
 }
+
+# FUNCTION TO ASSIGN PLAYER
+function playerAssign(){
+randomToss1=$((RANDOM%2))
+if [ $randomToss1 -eq $SIGN ]
+then
+	echo Player=X
+else
+	echo Player=0
+fi
+}
+playerAssign
