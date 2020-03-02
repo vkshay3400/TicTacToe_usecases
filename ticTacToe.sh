@@ -40,6 +40,27 @@ function  displayBoard(){
 	echo " ------------- "
 }
 
+# CORNER CHECK
+function cornerCheck(){
+	if [ $compWinMove = false ]
+   then
+		for((index=1; index<=BOARD_POSITION; index=$(($index+2)) ))
+		do
+			if [ ${board[$index]} == "" ]
+			then
+				computerP=$index
+            board[$computerP]=$computer
+            compWinMove=true
+            break
+			fi
+			if [ $index -eq 3 ]
+			then
+				index=$(($index+2))
+			fi
+		done
+	fi
+}
+
 # HORIZONTAL CHECK
 function checkHorizontal(){
 	local position=1
@@ -213,6 +234,7 @@ function computerInput(){
 	checkOpponentMove $column $row
 	checkWinningMove $row $column
 	checkWinningMove $column $row
+	cornerCheck
 	POSITION=$((RANDOM%9+1))
 	if [ $winMove == false ]
 	then
