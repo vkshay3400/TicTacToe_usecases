@@ -40,6 +40,27 @@ function  displayBoard(){
 	echo " ------------- "
 }
 
+# RANDOM CHECK
+function randomCheck(){
+	if [ $compWinMove = false ]
+	then
+  		for((index=2; index<=BOARD_POSITION; index=$(($index+2)) ))
+      do
+      	if [ ${board[$index]} == "" ]
+         then
+         	computerP=$index
+            board[$computerP]=$computer
+            compWinMove=true
+            break
+         fi
+			if [ $index -eq 3 ] || [ $index -eq 6 ]
+         then
+         	 index=$(($index+1))
+         fi
+     	done
+	fi
+}
+
 # MIDDLE CHECK
 function middleCheck(){
 	middle=5
@@ -49,7 +70,6 @@ function middleCheck(){
                board[$computerP]=$computer
                compWinMove=true
    fi
-
 }
 
 # CORNER CHECK
@@ -248,6 +268,7 @@ function computerInput(){
 	checkWinningMove $column $row
 	cornerCheck
 	middleCheck
+	randomCheck
 	POSITION=$((RANDOM%9+1))
 	if [ $winMove == false ]
 	then
