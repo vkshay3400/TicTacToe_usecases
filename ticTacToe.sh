@@ -117,6 +117,38 @@ function checkTie(){
 	done
 }
 
+# CHECK WINNING MOVE
+function checkWinningMove(){
+	counter=1
+	winMove=false
+	for (( index=1; index<=3; index++ ))
+	do
+		if [[ ${board[$counter]} == ${board[$counter+$1+$1]} ]] && [[ ${board[$counter+$1]} == 0 ]] &&[[ ${board[$counter]} == $computer ]]
+		then
+			computerP=$(( $counter+$1 ))
+			echo "Winning move is " $computerP
+			board[$computerP]=$computer
+			winMove=true
+			break
+		elif [[ ${board[$counter]} == ${board[$counter+$1]} ]] && [[ ${board[$counter+$1+$1]} == 0 ]] && [[ ${board[$counter]} == $computer ]]
+		then
+			computerP=$(( $counter+$1+$1 ))
+			echo "Winning move is " $computerP
+			board[$computerP]=$computer
+			winMove=true
+			break
+		elif [[ ${board[$counter+$1]} == ${board[$counter+$1+$1]} ]] && [[ ${board[$counter]} == 0 ]] && [[ ${board[$counter+$1]} == $computer ]]
+		then
+			computerP=$counter
+			echo "Winning move is " $computerP
+			board[$computerP]=$computer
+			winMove=true
+			break
+		fi
+	counter=$(( $counter+$2 ))
+	done
+}
+
 # USER INPUT
 function userInput() {
 	row=1
@@ -145,6 +177,8 @@ function computerInput(){
 	column=3
 	winMove=false
 	echo "Computer is Playing"
+	checkWinningMove $row $column
+	checkWinningMove $column $row
 	POSITION=$((RANDOM%9+1))
 	if [ $winMove == false ]
 	then
