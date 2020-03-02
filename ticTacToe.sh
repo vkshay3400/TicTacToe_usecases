@@ -3,18 +3,19 @@
 echo "*************************TicTacToe*************************"
 
 # CONSTANTS
-BOARD_POSITION=9
 ROWS=3
 COLUMNS=3
+BOARD_POSITION=9
 HEAD=1
 TAIL=0
 
 # VARIABLES
 playerTurn=false
 winner=false
+compWinMove=false
 turn=0
-player1=0
-player2=0
+computerP=0
+playerP=0
 nonEmptyCount=1
 
 # STORE IN ARRAY
@@ -102,7 +103,7 @@ function checkDiagonal(){
 
 # CHECK TIE CASE
 function checkTie(){
-	while [[ ${board[$nonEmptyCount]} -ne 0 ]]
+	while [ ${board[$nonEmptyCount]} != 0 ]
 	do
 		if [ $nonEmptyCount -eq $BOARD_POSITION ]
 		then
@@ -116,45 +117,43 @@ function checkTie(){
 	done
 }
 
-# USER INPUT1
-function userInput1() {
+# USER INPUT
+function userInput() {
 	row=1
 	column=3
-	winMovePlayer1=false
-	read -p "Enter player1 in between 1 to 9: " POSITION
-	if [ $winMovePlayer1 == false ]
+	winMovePlayer=false
+	read -p "Enter you position in between 1 to 9: " POSITION
+	if [ $winMovePlayer == false ]
 	then
 		if [ ${board[$POSITION]} -eq $TAIL ]
 		then
 			echo "Player turn"
-			board[$POSITION]=$player1
+			board[$POSITION]=$player
 			displayBoard
 			turn=$(( $turn + 1 ))
 		else
 			echo "Invalid input"
-         userInput1
+         userInput
 		fi
 	fi
 	playerTurn=false
 }
 
-# USER INPUT2
-function userInput2() {
+# COMPUTER INPUT
+function computerInput(){
 	row=1
 	column=3
-	winMovePlayer2=false
-	read -p "Enter player2 in between 1 to 9: " POSITION
-	if [ $winMovePlayer2 == false ]
+	winMove=false
+	echo "Computer is Playing"
+	POSITION=$((RANDOM%9+1))
+	if [ $winMove == false ]
 	then
-		if [ ${board[$POSITION]} -eq $TAIL ]
+		if [ ${board[$POSITION]} == $TAIL ]
 		then
-			echo "Player turn"
-			board[$POSITION]=$player2
-			displayBoard
-			turn=$(( $turn + 1 ))
+			board[$POSITION]=$computer
 		else
-			echo "Invalid input"
-         userInput2
+			echo "Wrong move "
+			computerInput
 		fi
 	fi
 	playerTurn=true
@@ -166,14 +165,14 @@ function ticTacToe(){
 	if [[ $checkingToss -eq $HEAD ]]
 	then
 		playerTurn=true
-		player1='X'
-		player2='O'
-		echo "Player1 will play first"
+		player='X'
+		computer='O'
+		echo "Player will play first"
 		displayBoard
 	else
-		player2='X'
-		player1='O'
-		echo "Player2 will play first"
+		player='X'
+		computer='O'
+		echo "Computer will play first"
 	fi
 }
 
@@ -187,16 +186,16 @@ do
 	displayBoard
 	if [ $playerTurn == true ]
 	then
-		userInput1 $player1
-		checkHorizontal $player1
-		checkVertical $player1
-		checkDiagonal $player1
-		checkTie $player1
+		userInput
+		checkHorizontal $player
+		checkVertical $player
+		checkDiagonal $player
+		checkTie $player
 	else
-		userInput2 $player2
-		checkHorizontal $player2
-		checkVertical $player2
-		checkDiagonal $player2
-		checkTie $player2
+		computerInput
+		checkHorizontal $computer
+      checkVertical $computer
+  		checkDiagonal $computer
+		checkTie $computer
 	fi
 done
