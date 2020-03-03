@@ -44,20 +44,20 @@ function  displayBoard(){
 function randomCheck(){
 	if [ $compWinMove = false ]
 	then
-  		for((index=2; index<=BOARD_POSITION; index=$(($index+2)) ))
-      do
-      	if [ ${board[$index]} == "" ]
-         then
-         	computerP=$index
-            board[$computerP]=$computer
-            compWinMove=true
-            break
-         fi
+		for((index=2; index<=BOARD_POSITION; index=$(($index+2)) ))
+		do
+			if [ ${board[$index]} == "" ]
+			then
+				computerP=$index
+				board[$computerP]=$computer
+				compWinMove=true
+				break
+			fi
 			if [ $index -eq 3 ] || [ $index -eq 6 ]
-         then
-         	 index=$(($index+1))
-         fi
-     	done
+			then
+				index=$(($index+1))
+			fi
+		done
 	fi
 }
 
@@ -67,23 +67,23 @@ function middleCheck(){
 	if [[ $compWinMove = false ]] && [[ ${board[$middle]} == "" ]]
 	then
 		computerP=$middle
-               board[$computerP]=$computer
-               compWinMove=true
-   fi
+		board[$computerP]=$computer
+		compWinMove=true
+	fi
 }
 
 # CORNER CHECK
 function cornerCheck(){
 	if [ $compWinMove = false ]
-   then
+	then
 		for((index=1; index<=BOARD_POSITION; index=$(($index+2)) ))
 		do
 			if [ ${board[$index]} == "" ]
 			then
 				computerP=$index
-            board[$computerP]=$computer
-            compWinMove=true
-            break
+				board[$computerP]=$computer
+				compWinMove=true
+				break
 			fi
 			if [ $index -eq 3 ]
 			then
@@ -173,33 +173,33 @@ function checkTie(){
 # CHECK OPPONENT MOVE
 function checkOpponentMove(){
 	counterPlayer=1
-   winMovePlayer=false
-   	for (( index=1; index<=3; index++ ))
-      do
-			if [[ ${board[$counterPlayer]} == ${board[$counterPlayer+$1+$1]} ]] && [[ ${board[$counterPlayer+$1]} == 0 ]] &&[[ ${board[$counterPlayer]} == $player ]]
-         then
-         	computerP=$(( $counter+$1 ))
-				echo "Winning move is " $computerP
-				board[$computerP]=$computer
-				winMove=true
-				break
-			elif [[ ${board[$counterPlayer]} == ${board[$counterPlayer+$1]} ]] && [[ ${board[$counterPlayer+$1+$1]} == 0 ]] && [[ ${board[$counterPlayer]} == $player ]]
-         then
-         	computerP=$(( $counter+$1+$1 ))
-				echo "Winning move is " $computerP
-				board[$computerP]=$computer
-				winMove=true
-				break
-			elif [[ ${board[$counterPlayer+$1]} == ${board[$counterPlayer+$1+$1]} ]] && [[ ${board[$counterPlayer]} == 0 ]] && [[ ${board[$counterPlayer+$1]} == $player ]]
-         then
-			  	computerP=$(( $counter ))
-				echo "Winning move is " $computerP
-				board[$computerP]=$computer
-				winMove=true
-				break
-         fi
-        	counterPlayer=$(( $counterPlayer+$2 ))
-		done
+	winMovePlayer=false
+	for (( index=1; index<=3; index++ ))
+	do
+		if [[ ${board[$counterPlayer]} == ${board[$counterPlayer+$1+$1]} ]] && [[ ${board[$counterPlayer+$1]} == 0 ]] &&[[ ${board[$counterPlayer]} == $player ]]
+		then
+			computerP=$(( $counter+$1 ))
+			echo "Winning move is " $computerP
+			board[$computerP]=$computer
+			winMove=true
+			break
+		elif [[ ${board[$counterPlayer]} == ${board[$counterPlayer+$1]} ]] && [[ ${board[$counterPlayer+$1+$1]} == 0 ]] && [[ ${board[$counterPlayer]} == $player ]]
+		then
+			computerP=$(( $counter+$1+$1 ))
+			echo "Winning move is " $computerP
+			board[$computerP]=$computer
+			winMove=true
+			break
+		elif [[ ${board[$counterPlayer+$1]} == ${board[$counterPlayer+$1+$1]} ]] && [[ ${board[$counterPlayer]} == 0 ]] && [[ ${board[$counterPlayer+$1]} == $player ]]
+		then
+			computerP=$(( $counter ))
+			echo "Winning move is " $computerP
+			board[$computerP]=$computer
+			winMove=true
+			break
+		fi
+	counterPlayer=$(( $counterPlayer+$2 ))
+	done
 }
 
 # CHECK WINNING MOVE
@@ -250,7 +250,7 @@ function userInput() {
 			turn=$(( $turn + 1 ))
 		else
 			echo "Invalid input"
-         userInput
+			userInput
 		fi
 	fi
 	playerTurn=false
@@ -318,8 +318,8 @@ do
 	else
 		computerInput
 		checkHorizontal $computer
-      checkVertical $computer
-  		checkDiagonal $computer
+		checkVertical $computer
+		checkDiagonal $computer
 		checkTie $computer
 	fi
 done
